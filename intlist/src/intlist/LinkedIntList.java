@@ -115,9 +115,15 @@ public class LinkedIntList {
      * use 'new'.
      */
     public static void extend(LinkedIntList A, LinkedIntList B) {
-        // TODO: your code here
-
-        throw new UnsupportedOperationException("Not implemented yet.");
+        if (A.front == null) {
+            A.front = B.front;
+        } else {
+            ListNode curr = A.front;
+            while (curr.next != null) {
+                curr = curr.next;
+            }
+            curr.next = B.front;
+        }
     }
 
     /**
@@ -125,10 +131,31 @@ public class LinkedIntList {
      * of B. May NOT modify items of A or B. Use 'new'.
      */
     public static LinkedIntList concatenated(LinkedIntList A, LinkedIntList B) {
-        // TODO: your code here
-        throw new UnsupportedOperationException("Not implemented yet.");
+        LinkedIntList L1 = concatenatedHelper(A);
+        LinkedIntList L2 = concatenatedHelper(B);
+        extend(L1, L2);
+        L2.front = null;
+        return L1;
     }
 
+    // private helper method for concatenated, return a new linkedIntList
+    // duplicating given list, not altering existing list
+    // @LinkedIntList other: given list
+    private static LinkedIntList concatenatedHelper(LinkedIntList other) {
+        LinkedIntList L = new LinkedIntList();
+        if (other.front != null) {
+            L.front = new ListNode(other.front.data, L.front);
+            ListNode currA = other.front.next;
+            ListNode currL = L.front;
+            while (currA.next != null) {
+                currL.next = new ListNode(currA.data, currL.next);
+                currA = currA.next;
+                currL = currL.next;
+            }
+            currL.next = new ListNode(currA.data, currL.next);
+        }
+        return L;
+    }
     // You don't need to look at or understand the methods below this comment.
 
     /**
