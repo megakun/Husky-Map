@@ -98,8 +98,16 @@ public class LinkedIntList {
 
     /** Moves the first integer to the back of the list. */
     public static void firstToLast(LinkedIntList L) {
-        // TODO: your code here
-        throw new UnsupportedOperationException("Not implemented yet.");
+        if (L != null && L.front != null && L.front.next != null) {
+            ListNode last = L.front;
+            L.front = L.front.next;
+            ListNode curr = L.front;
+            while (curr.next != null) {
+                curr = curr.next;
+            }
+            curr.next = last;
+            curr.next.next = null;
+        }
     }
 
     /**
@@ -108,6 +116,7 @@ public class LinkedIntList {
      */
     public static void extend(LinkedIntList A, LinkedIntList B) {
         // TODO: your code here
+
         throw new UnsupportedOperationException("Not implemented yet.");
     }
 
