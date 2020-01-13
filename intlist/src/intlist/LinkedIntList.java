@@ -138,9 +138,11 @@ public class LinkedIntList {
         return L1;
     }
 
-    // private helper method for concatenated, return a new linkedIntList
-    // duplicating given list, not altering existing list
-    // @LinkedIntList other: given list
+    /**
+     * private helper method for concatenated, return a new linkedIntList
+     * duplicating given list, not altering existing list
+     * LinkedIntList other: given list
+     */
     private static LinkedIntList concatenatedHelper(LinkedIntList other) {
         LinkedIntList L = new LinkedIntList();
         if (other.front != null) {
