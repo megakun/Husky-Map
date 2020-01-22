@@ -240,4 +240,15 @@ public abstract class AbstractDequeTests extends BaseTest {
         int actual = deque.removeLast();
         assertThat(actual).isEqualTo(1);
     }
+
+    @Test
+    void test1() {
+        Deque<Integer> deque = createDeque();
+        for (int i = 0; i <= 9; i++) {
+            deque.addFirst(i);
+        }
+        for (int j = 0; j <= 9; j++) {
+            deque.removeLast();
+        }
+    }
 }
