@@ -65,20 +65,24 @@ public class LinkedDeque<T> extends AbstractDeque<T> {
         if (size == 0) {
             return null;
         }
-        T result = front.next.value;
+        Node<T> p = front.next;
         front.next = front.next.next;
+        Node<T> n = front.next;
+        n.prev = front;
         size -= 1;
-        return result;
+        return p.value;
     }
 
     public T removeLast() {
         if (size == 0) {
             return null;
         }
-        T result = back.prev.value;
+        Node<T> p = back.prev;
         back.prev = back.prev.prev;
+        Node<T> n = back.prev;
+        n.next = back;
         size -= 1;
-        return result;
+        return p.value;
     }
 
     public T get(int index) {
@@ -89,7 +93,6 @@ public class LinkedDeque<T> extends AbstractDeque<T> {
         for (int i = 0; i < index; i++) {
             p = p.next;
         }
-        //T result = p.value;
         return p.value;
     }
 
