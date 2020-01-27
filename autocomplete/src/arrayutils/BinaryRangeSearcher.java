@@ -1,13 +1,17 @@
 package arrayutils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+
 /**
  * Make sure to check out the interface for more method details:
+ *
  * @see ArraySearcher
  */
 public class BinaryRangeSearcher<T, U> implements ArraySearcher<T, U> {
-    // TODO: add fields as necessary
+    private final T[] array;
+    private final Matcher<T, U> matcher;
 
     /**
      * Creates a BinaryRangeSearcher for the given array of items that matches items using the
@@ -31,8 +35,10 @@ public class BinaryRangeSearcher<T, U> implements ArraySearcher<T, U> {
     public static <T, U> BinaryRangeSearcher<T, U> forUnsortedArray(T[] array,
                                                                     Comparator<T> sortUsing,
                                                                     Matcher<T, U> matchUsing) {
+        if (sortUsing == null || matchUsing == null) {
+            throw new IllegalArgumentException();
+        }
         /*
-        TODO throw exceptions when necessary
         Tip: To reduce redundancy, you can let the BinaryRangeSearcher constructor throw some of
         the exceptions mentioned in this method's documentation. The caller doesn't care which
         method exactly causes the exception, as long as it's something that happens while
@@ -53,13 +59,71 @@ public class BinaryRangeSearcher<T, U> implements ArraySearcher<T, U> {
      * @throws IllegalArgumentException if matcher is null
      */
     protected BinaryRangeSearcher(T[] array, Matcher<T, U> matcher) {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        if (array == null) {
+            throw new IllegalArgumentException();
+        }
+        for (T item : array) {
+            if (item == null) {
+                throw new IllegalArgumentException();
+            }
+        }
+        this.array = array;
+        this.matcher = matcher;
     }
 
     public MatchResult<T> findAllMatches(U target) {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        if (target == null) {
+            throw new IllegalArgumentException();
+        }
+        ArrayList<T> matches = new ArrayList<>();
+        int length = this.array.length;
+        int first = findFirstMatches(target, 0, length - 1, length);
+        int last = findLastMatches(target, 0, length - 1, length);
+        if (first != -1) {
+            matches.add(this.array[first]);
+        }
+        if (last != -1 && last != first) {
+            matches.add(this.array[last]);
+        }
+        T[] matchesArray = matches.toArray(Arrays.copyOf(this.array, matches.size()));
+        if (first != -1 && last != -1) {
+            return new MatchResult<>(matchesArray, first, last + 1);
+        } else {
+            return new MatchResult<>(matchesArray);
+        }
+    }
+
+    private int findFirstMatches(U target, int lo, int hi, int length) {
+        if (lo > hi) {
+            return -1;
+        }
+        int mid = (lo + hi) / 2;
+        T item = this.array[mid];
+        if ((mid == 0 || this.matcher.match(this.array[mid - 1], target) < 0)
+            && this.matcher.match(this.array[mid], target) == 0) {
+            return mid;
+        } else if (this.matcher.match(this.array[mid], target) < 0) {
+            return findFirstMatches(target, mid + 1, hi, length);
+        } else {
+            return findFirstMatches(target, lo, mid - 1, length);
+        }
+
+    }
+
+    private int findLastMatches(U target, int lo, int hi, int length) {
+        if (lo > hi) {
+            return -1;
+        }
+        int mid = (lo + hi) / 2;
+        T item = this.array[mid];
+        if ((mid == length - 1 || this.matcher.match(this.array[mid + 1], target) > 0)
+            && this.matcher.match(this.array[mid], target) == 0) {
+            return mid;
+        } else if (this.matcher.match(this.array[mid], target) > 0) {
+            return findLastMatches(target, mid + 1, hi, length);
+        } else {
+            return findLastMatches(target, lo, mid - 1, length);
+        }
     }
 
     public static class MatchResult<T> extends AbstractMatchResult<T> {
