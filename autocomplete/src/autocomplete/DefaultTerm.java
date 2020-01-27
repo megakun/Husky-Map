@@ -1,53 +1,94 @@
 package autocomplete;
 
+import java.util.Objects;
+
 /**
  * This is currently the only implementation of the {@link Term} interface, which is why it's named
  * "default." (Having an interface with a single implementation is a little redundant, but we need
  * it to keep you from accidentally renaming things.)
- *
+ * <p>
  * Make sure to check out the interface for method specifications.
+ *
  * @see Term
  */
 public class DefaultTerm implements Term {
-    // TODO: add fields as necessary
-    // TODO (recommended): after adding fields, use IntelliJ to generate toString, equals, and hashCode methods
+
+    String query;
+    long weight;
 
     /**
      * Initializes a term with the given query string and weight.
+     *
      * @throws IllegalArgumentException if query is null or weight is negative
      */
     public DefaultTerm(String query, long weight) {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        if (query == null || weight < 0) {
+            throw new IllegalArgumentException();
+        }
+        this.query = query;
+        this.weight = weight;
     }
 
     @Override
     public String query() {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return query;
+
+    }
+
+    @Override
+    public String toString() {
+        return "DefaultTerm{" +
+            "query='" + query + '\'' +
+            ", weight=" + weight +
+            '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        DefaultTerm that = (DefaultTerm) o;
+        return weight == that.weight &&
+            Objects.equals(query, that.query);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(query, weight);
     }
 
     @Override
     public long weight() {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return weight;
+
     }
 
     @Override
     public int queryOrder(Term that) {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        if (that == null) {
+            throw new NullPointerException();
+        }
+        return this.query.compareTo(that.query());
     }
 
     @Override
     public int reverseWeightOrder(Term that) {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        if (that == null) {
+            throw new NullPointerException();
+        }
+        return (int) (-1 * (this.weight - that.weight()));
     }
 
     @Override
     public int matchesPrefix(String prefix) {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        if (this.query.startsWith(prefix)) {
+            return 0;
+        } else {
+            return this.query.compareTo(prefix);
+        }
     }
 }
