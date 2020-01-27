@@ -75,22 +75,21 @@ public class BinaryRangeSearcher<T, U> implements ArraySearcher<T, U> {
         if (target == null) {
             throw new IllegalArgumentException();
         }
-        ArrayList<T> matches = new ArrayList<>();
+        //  ArrayList<T> matches = new ArrayList<>();
         int length = this.array.length;
         int first = findFirstMatches(target, 0, length - 1, length);
         int last = findLastMatches(target, 0, length - 1, length);
-        if (first != -1 && last != -1) {
-            for (int i = first; i <= last; i++) {
-                matches.add(this.array[i]);
-            }
+        // if (first != -1 && last != -1) {
+        //   for (int i = first; i <= last; i++) {
+        //       matches.add(this.array[i]);
+        //   }
+        //   }
+        // T[] matchesArray = matches.toArray(Arrays.copyOf(this.array, matches.size()));
 
-        }
-        T[] matchesArray = matches.toArray(Arrays.copyOf(this.array, matches.size()));
-
         if (first != -1 && last != -1) {
-            return new MatchResult<>(matchesArray, 0, matchesArray.length);
+            return new MatchResult<>(this.array, first, last + 1);
         } else {
-            return new MatchResult<>(matchesArray);
+            return new MatchResult<>(this.array);
         }
     }
 
