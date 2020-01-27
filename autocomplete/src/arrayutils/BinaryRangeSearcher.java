@@ -70,21 +70,17 @@ public class BinaryRangeSearcher<T, U> implements ArraySearcher<T, U> {
         this.matcher = matcher;
     }
 
+    /*
+    Binary search code based on
+    https://www.geeksforgeeks.org/find-first-and-last-positions-of-an-element-in-a-sorted-array/
+     */
     public MatchResult<T> findAllMatches(U target) {
         if (target == null) {
             throw new IllegalArgumentException();
         }
-        //  ArrayList<T> matches = new ArrayList<>();
         int length = this.array.length;
         int first = findFirstMatches(target, 0, length - 1, length);
         int last = findLastMatches(target, 0, length - 1, length);
-        // if (first != -1 && last != -1) {
-        //   for (int i = first; i <= last; i++) {
-        //       matches.add(this.array[i]);
-        //   }
-        //   }
-        // T[] matchesArray = matches.toArray(Arrays.copyOf(this.array, matches.size()));
-
         if (first != -1 && last != -1) {
             return new MatchResult<>(this.array, first, last + 1);
         } else {
