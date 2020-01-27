@@ -79,15 +79,16 @@ public class BinaryRangeSearcher<T, U> implements ArraySearcher<T, U> {
         int length = this.array.length;
         int first = findFirstMatches(target, 0, length - 1, length);
         int last = findLastMatches(target, 0, length - 1, length);
-        if (first != -1) {
-            matches.add(this.array[first]);
-        }
-        if (last != -1 && last != first) {
-            matches.add(this.array[last]);
+        if (first != -1 && last != -1) {
+            for (int i = first; i <= last; i++) {
+                matches.add(this.array[i]);
+            }
+
         }
         T[] matchesArray = matches.toArray(Arrays.copyOf(this.array, matches.size()));
+
         if (first != -1 && last != -1) {
-            return new MatchResult<>(matchesArray, first, last + 1);
+            return new MatchResult<>(matchesArray, 0, matchesArray.length);
         } else {
             return new MatchResult<>(matchesArray);
         }
@@ -97,7 +98,7 @@ public class BinaryRangeSearcher<T, U> implements ArraySearcher<T, U> {
         if (lo > hi) {
             return -1;
         }
-        int mid = (lo + hi) / 2;
+        int mid = lo + (hi - lo) / 2;
         T item = this.array[mid];
         if ((mid == 0 || this.matcher.match(this.array[mid - 1], target) < 0)
             && this.matcher.match(this.array[mid], target) == 0) {
@@ -114,15 +115,15 @@ public class BinaryRangeSearcher<T, U> implements ArraySearcher<T, U> {
         if (lo > hi) {
             return -1;
         }
-        int mid = (lo + hi) / 2;
+        int mid = lo + (hi - lo) / 2;
         T item = this.array[mid];
         if ((mid == length - 1 || this.matcher.match(this.array[mid + 1], target) > 0)
             && this.matcher.match(this.array[mid], target) == 0) {
             return mid;
         } else if (this.matcher.match(this.array[mid], target) > 0) {
-            return findLastMatches(target, mid + 1, hi, length);
-        } else {
             return findLastMatches(target, lo, mid - 1, length);
+        } else {
+            return findLastMatches(target, mid + 1, hi, length);
         }
     }
 
