@@ -28,8 +28,10 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
      */
     private void swap(int a, int b) {
         PriorityNode<T> temp = items.get(a);
+
         map.put(items.get(b).getItem(), a);
         items.set(a, items.get(b));
+
         map.put(temp.getItem(), b);
         items.set(b, temp);
     }
@@ -44,10 +46,10 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
         if (item == null || contains(item)) {
             throw new IllegalArgumentException();
         }
-        items.add(new PriorityNode<>(item, priority));
-        size++;
-        map.put(item, size);
-        percolateUp(size);
+        items.add(size + 1, new PriorityNode<>(item, priority));
+        map.put(item, size + 1);
+        percolateUp(size + 1);
+        ++size;
     }
 
     private void percolateUp(int root) {
