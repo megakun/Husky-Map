@@ -1,7 +1,9 @@
 package priorityqueues;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T> {
@@ -9,12 +11,14 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
     // We access these during grading to test your code.
     static final int START_INDEX = 1;
     List<PriorityNode<T>> items;
-    // TODO: add fields as necessary
+    Map<T, Integer> map;
+    private int size;
 
     public ArrayHeapMinPQ() {
         items = new ArrayList<>();
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        items.add(new PriorityNode<T>(null, 0.0));
+        map = new HashMap<>();
+        size = 0;
     }
 
     // Here's a method stub that may be useful. Feel free to change or remove it, if you wish.
@@ -23,8 +27,11 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
      * A helper method for swapping the items at two indices of the array heap.
      */
     private void swap(int a, int b) {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        PriorityNode<T> temp = items.get(a);
+        map.put(items.get(b).getItem(), a);
+        items.set(a, items.get(b));
+        map.put(temp.getItem(), b);
+        items.set(b, temp);
     }
 
     /**
@@ -34,8 +41,28 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
      */
     @Override
     public void add(T item, double priority) {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        if (item == null || contains(item)) {
+            throw new IllegalArgumentException();
+        }
+        items.add(new PriorityNode<>(item, priority));
+        size++;
+        map.put(item, size);
+        percolateUp(size);
+    }
+
+    private void percolateUp(int root) {
+        while (root > 1 &&
+            (items.get(root / 2).getPriority() > items.get(root).getPriority())) {
+            swap(root, root / 2);
+            root = root / 2;
+        }
+        //if (child != START_INDEX) {
+        // int parent = child / 2;
+        //if (items.get(child).getPriority() < items.get(parent).getPriority()) {
+        //  swap(child, parent);
+        //percolateUp(parent);
+        //    }
+        // }
     }
 
     /**
@@ -44,8 +71,7 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
      */
     @Override
     public boolean contains(T item) {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return map.containsKey(item);
     }
 
     /**
@@ -55,8 +81,10 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
      */
     @Override
     public T peekMin() {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        if (size == 0) {
+            throw new NoSuchElementException();
+        }
+        return items.get(START_INDEX).getItem();
     }
 
     /**
@@ -66,19 +94,62 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
      */
     @Override
     public T removeMin() {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        if (size == 0) {
+            throw new NoSuchElementException();
+        }
+        T min = items.get(START_INDEX).getItem();
+        swap(START_INDEX, size);
+        percolateDown(START_INDEX);
+        items.set(size, null);
+        map.remove(min);
+        size--;
+        return min;
+    }
+
+    private void percolateDown(int root) {
+        while (2 * root <= size) {
+            int j = 2 * root;
+            if (j < size && (items.get(j).getPriority() > items.get(j + 1).getPriority())) {
+                j++;
+            }
+            if (!(items.get(root).getPriority() > items.get(j).getPriority())) {
+                break;
+            }
+            swap(root, j);
+            root = j;
+        }
+        /** int left = root * 2;
+         int right = left + 1;
+         if (right < size + 1) {
+         double rootPriority = items.get(root).getPriority();
+         double leftPriority = items.get(left).getPriority();
+         double rightPriority = items.get(right).getPriority();
+         if (rootPriority > leftPriority && leftPriority < rightPriority) {
+         swap(root, left);
+         percolateDown(left);
+         } else if (rootPriority > rightPriority && leftPriority < rightPriority) {
+         swap(root, right);
+         percolateDown(right);
+         }
+         }**/
     }
 
     /**
      * Changes the priority of the given item.
      * Runs in O(log N) time.
+     *
      * @throws NoSuchElementException if the item is not present in the PQ
      */
     @Override
     public void changePriority(T item, double priority) {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        if (!map.containsKey(item)) {
+            throw new NoSuchElementException();
+        }
+        int index = map.get(item);
+        items.get(index).setPriority(priority);
+        swap(index, size);
+        percolateUp(index);
+
     }
 
     /**
@@ -87,7 +158,6 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
      */
     @Override
     public int size() {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return size;
     }
 }
