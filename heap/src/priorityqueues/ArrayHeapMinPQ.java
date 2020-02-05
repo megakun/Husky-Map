@@ -56,13 +56,6 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
             swap(root, root / 2);
             root = root / 2;
         }
-        //if (child != START_INDEX) {
-        // int parent = child / 2;
-        //if (items.get(child).getPriority() < items.get(parent).getPriority()) {
-        //  swap(child, parent);
-        //percolateUp(parent);
-        //    }
-        // }
     }
 
     /**
@@ -117,20 +110,6 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
             swap(root, j);
             root = j;
         }
-        /** int left = root * 2;
-         int right = left + 1;
-         if (right < size) {
-         double rootPriority = items.get(root).getPriority();
-         double leftPriority = items.get(left).getPriority();
-         double rightPriority = items.get(right).getPriority();
-         if (rootPriority > leftPriority && leftPriority < rightPriority) {
-         swap(root, left);
-         percolateDown(left);
-         } else if (rootPriority > rightPriority && leftPriority < rightPriority) {
-         swap(root, right);
-         percolateDown(right);
-         }
-         }**/
     }
 
     /**
