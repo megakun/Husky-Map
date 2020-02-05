@@ -98,11 +98,10 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
             throw new NoSuchElementException();
         }
         T min = items.get(START_INDEX).getItem();
-        swap(START_INDEX, size);
+        swap(START_INDEX, size--);
         percolateDown(START_INDEX);
-        items.set(size, null);
+        items.set(size + 1, null);
         map.remove(min);
-        size--;
         return min;
     }
 
@@ -112,7 +111,7 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
             if (j < size && (items.get(j).getPriority() > items.get(j + 1).getPriority())) {
                 j++;
             }
-            if (!(items.get(root).getPriority() > items.get(j).getPriority())) {
+            if (items.get(root).getPriority() <= items.get(j).getPriority()) {
                 break;
             }
             swap(root, j);
@@ -120,7 +119,7 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
         }
         /** int left = root * 2;
          int right = left + 1;
-         if (right < size + 1) {
+         if (right < size) {
          double rootPriority = items.get(root).getPriority();
          double leftPriority = items.get(left).getPriority();
          double rightPriority = items.get(right).getPriority();
@@ -149,7 +148,6 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
         items.get(index).setPriority(priority);
         swap(index, size);
         percolateUp(index);
-
     }
 
     /**
