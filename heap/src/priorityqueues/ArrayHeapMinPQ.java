@@ -115,6 +115,43 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
         }
     }
 
+
+    /** for experiment
+    private void down(int startNode) {
+        /* I changed the variable to "startNode" because using an
+         * argument as a regular variable is kind of tacky. But it's a
+         * minor point, and I wanted to document it.
+
+
+        int child;
+        PriorityNode<T> tmp = items.get(startNode);
+        int hole;
+
+
+        for (hole = startNode; hole * 2 <= size; hole = child) {
+
+            child = hole * 2;
+
+            if (child != size &&
+                items.get(child + 1).getPriority() < items.get(child).getPriority()) {
+
+                child++;
+            }
+
+
+            if (items.get(child).getPriority() < tmp.getPriority()) {
+
+                swap(hole, child);
+            } else {
+
+                break;
+            }
+        }
+
+
+        items.set(hole, tmp);
+    } **/
+
     /**
      * Changes the priority of the given item.
      * Runs in O(log N) time.
