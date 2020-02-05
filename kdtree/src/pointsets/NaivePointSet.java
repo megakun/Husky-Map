@@ -1,11 +1,14 @@
 package pointsets;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Naive nearest-neighbor implementation using a linear scan.
  */
 public class NaivePointSet<T extends Point> implements PointSet<T> {
+    ArrayList<T> npSet;
     // TODO: add fields as necessary
 
     /**
@@ -15,8 +18,9 @@ public class NaivePointSet<T extends Point> implements PointSet<T> {
      *               directly store and mutate the array).
      */
     public NaivePointSet(List<T> points) {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        for (T point : points) {
+            npSet.add(point);
+        }
     }
 
     /**
@@ -25,13 +29,21 @@ public class NaivePointSet<T extends Point> implements PointSet<T> {
      */
     @Override
     public T nearest(Point target) {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        T result = null;
+        double nearest = Double.MAX_VALUE;
+        for (T point : npSet) {
+            double distance = point.distanceSquaredTo(target);
+            if (distance < nearest) {
+                nearest = distance;
+                result = point;
+            }
+        }
+        return result;
     }
 
     @Override
     public List<T> allPoints() {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return npSet;
+
     }
 }
