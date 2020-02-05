@@ -49,7 +49,7 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
         items.add(size + 1, new PriorityNode<>(item, priority));
         map.put(item, size + 1);
         percolateUp(size + 1);
-        ++size;
+        size++;
     }
 
     private void percolateUp(int root) {
@@ -93,17 +93,18 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
             throw new NoSuchElementException();
         }
         T min = items.get(START_INDEX).getItem();
-        swap(START_INDEX, size--);
-        percolateDown(START_INDEX);
-        items.set(size + 1, null);
+        swap(START_INDEX, size);
+        items.set(size, null);
         map.remove(min);
+        size--;
+        percolateDown(START_INDEX);
         return min;
     }
 
     private void percolateDown(int root) {
         while (2 * root <= size) {
             int j = 2 * root;
-            if (j < size && (items.get(j).getPriority() > items.get(j + 1).getPriority())) {
+            if (j != size && (items.get(j).getPriority() > items.get(j + 1).getPriority())) {
                 j++;
             }
             if (items.get(root).getPriority() <= items.get(j).getPriority()) {
