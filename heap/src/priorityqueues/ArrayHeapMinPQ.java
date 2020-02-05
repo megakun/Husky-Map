@@ -120,7 +120,7 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
      */
     @Override
     public void changePriority(T item, double priority) {
-        if (!map.containsKey(item)) {
+        if (!contains(item)) {
             throw new NoSuchElementException();
         }
         int index = map.get(item);
