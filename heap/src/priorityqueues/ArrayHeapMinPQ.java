@@ -124,9 +124,14 @@ public class ArrayHeapMinPQ<T extends Comparable<T>> implements ExtrinsicMinPQ<T
             throw new NoSuchElementException();
         }
         int index = map.get(item);
+        Double oldPriority = items.get(index).getPriority();
         items.get(index).setPriority(priority);
-        swap(index, size);
-        percolateUp(index);
+        if (priority > oldPriority) {
+            percolateDown(index);
+        } else {
+            percolateUp(index);
+        }
+
     }
 
     /**
