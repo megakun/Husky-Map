@@ -10,7 +10,7 @@ public class KDTreePointSet<T extends Point> implements PointSet<T> {
     private Node<Point> overallRoot;
     private List<T> points;
     private Point best;
-    private Double bestDistance;
+    private double bestDistance;
 
     /**
      * Instantiates a new KDTreePointSet with a shuffled version of the given points.
