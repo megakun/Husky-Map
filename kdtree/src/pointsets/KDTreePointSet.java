@@ -39,7 +39,7 @@ public class KDTreePointSet<T extends Point> implements PointSet<T> {
             overallRoot = insert(p, overallRoot);
         }
         this.points = points;
-        best = (T) new Point(0, 0);
+        best = overallRoot.p;
         bestDistance = Double.MAX_VALUE;
 
     }
@@ -76,8 +76,8 @@ public class KDTreePointSet<T extends Point> implements PointSet<T> {
     @Override
     public T nearest(Point target) {
         nearestHelper(this.overallRoot, target, true);
-        T result = (T) best;
-        return result;
+        return (T) best;
+
     }
 
     private void nearestHelper(Node<Point> root, Point target, boolean horizontal) {
@@ -89,18 +89,32 @@ public class KDTreePointSet<T extends Point> implements PointSet<T> {
             bestDistance = d;
             best = root.p;
         }
+        Node<Point> goodSide;
+        Node<Point> badSide;
         if (horizontal) {
             if (target.x() < root.p.x()) {
-                nearestHelper(root.left, target, false);
+                goodSide = root.left;
+                badSide = root.right;
+                //nearestHelper(goodSide, target, false);
             } else {
-                nearestHelper(root.right, target, false);
+                goodSide = root.right;
+                badSide = root.left;
+                //nearestHelper(root.right, target, false);
             }
+            nearestHelper(goodSide, target, false);
+            nearestHelper(badSide, target, false);
         } else {
             if (target.y() < root.p.y()) {
-                nearestHelper(root.left, target, true);
+                goodSide = root.left;
+                badSide = root.right;
+                //nearestHelper(root.left, target, true);
             } else {
-                nearestHelper(root.right, target, true);
+                goodSide = root.right;
+                badSide = root.left;
+                //nearestHelper(root.right, target, true);
             }
+            nearestHelper(goodSide, target, true);
+            nearestHelper(badSide, target, false);
         }
 
 
@@ -112,9 +126,9 @@ public class KDTreePointSet<T extends Point> implements PointSet<T> {
     }
 
     private static final class Node<Point> {
-        private final Point p;
-        private final Node<Point> left;
-        private final Node<Point> right;
+        private Point p;
+        private Node<Point> left;
+        private Node<Point> right;
 
 
         private Node(Point p) {
