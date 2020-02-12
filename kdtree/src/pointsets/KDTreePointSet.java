@@ -88,7 +88,7 @@ public class KDTreePointSet<T extends Point> implements PointSet<T> {
             best = root.p;
         }
 
-        Double d = root.p.distanceSquaredTo(target);
+        double d = root.p.distanceSquaredTo(target);
         if (d < bestDistance) {
             bestDistance = d;
             best = root.p;
@@ -150,7 +150,6 @@ public class KDTreePointSet<T extends Point> implements PointSet<T> {
             this.left = left;
             this.right = right;
             this.horizontal = horizontal;
-
         }
 
 
