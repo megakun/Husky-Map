@@ -7,7 +7,10 @@ import java.util.List;
  * Fast nearest-neighbor implementation using a k-d tree.
  */
 public class KDTreePointSet<T extends Point> implements PointSet<T> {
-    // TODO: add fields as necessary
+    private Node<Point> overallRoot;
+    private List<T> points;
+    private Point best;
+    private Double bestDistance;
 
     /**
      * Instantiates a new KDTreePointSet with a shuffled version of the given points.
@@ -32,8 +35,38 @@ public class KDTreePointSet<T extends Point> implements PointSet<T> {
      *               directly store and mutate the array).
      */
     KDTreePointSet(List<T> points) {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        for (Point p : points) {
+            overallRoot = insert(p, overallRoot);
+        }
+        this.points = points;
+        best = (T) new Point(0, 0);
+        bestDistance = Double.MAX_VALUE;
+
+    }
+
+    private Node<Point> insert(Point p, Node<Point> root) {
+        return insertHelper(root, p, true);
+    }
+
+    private Node<Point> insertHelper(Node<Point> root, Point p, boolean horizontal) {
+        if (root == null) {
+            root = new Node<Point>(p);
+        } else if (horizontal) {
+            if (p.x() < root.p.x()) {
+                root.left = insertHelper(root.left, p, false);
+            } else {
+                root.right = insertHelper(root.right, p, false);
+            }
+        } else {
+            if (p.y() < root.p.y()) {
+                root.left = insertHelper(root.left, p, true);
+            } else {
+                root.right = insertHelper(root.right, p, true);
+            }
+        }
+        return root;
+
+
     }
 
     /**
@@ -42,13 +75,61 @@ public class KDTreePointSet<T extends Point> implements PointSet<T> {
      */
     @Override
     public T nearest(Point target) {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        nearestHelper(this.overallRoot, target, true);
+        T result = (T) best;
+        return result;
+    }
+
+    private void nearestHelper(Node<Point> root, Point target, boolean horizontal) {
+        if (root == null) {
+            return;
+        }
+        Double d = root.p.distanceSquaredTo(target);
+        if (d < bestDistance) {
+            bestDistance = d;
+            best = root.p;
+        }
+        if (horizontal) {
+            if (target.x() < root.p.x()) {
+                nearestHelper(root.left, target, false);
+            } else {
+                nearestHelper(root.right, target, false);
+            }
+        } else {
+            if (target.y() < root.p.y()) {
+                nearestHelper(root.left, target, true);
+            } else {
+                nearestHelper(root.right, target, true);
+            }
+        }
+
+
     }
 
     @Override
     public List<T> allPoints() {
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return points;
+    }
+
+    private static final class Node<Point> {
+        private final Point p;
+        private final Node<Point> left;
+        private final Node<Point> right;
+
+
+        private Node(Point p) {
+            this.p = p;
+            left = null;
+            right = null;
+        }
+
+        private Node(Point p, Node<Point> left, Node<Point> right) {
+            this.p = p;
+            this.left = left;
+            this.right = right;
+
+        }
+
+
     }
 }
