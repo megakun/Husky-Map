@@ -110,9 +110,9 @@ public class KDTreePointSetTests extends BaseTest {
         PointSet<Point> set2 = createPointSet(points);
         PointSet<Point> set = createPointSet(points);
 
-        Point actual1 = set.nearest(-72.692848, 565.803558);
-        Point actual2 = set.nearest(-72.692848, 565.803558);
-        Point actual3 = set.nearest(-72.692848, 565.803558);
+        Point actual1 = set.nearest(-1, 565.803558);
+        Point actual2 = set.nearest(-72.692848, 2);
+        Point actual3 = set.nearest(-72.692848, 8);
         Point actual4 = set.nearest(-72.692848, 565.803558);
         assertThat(actual4).isEqualTo(new Point(331.097904, 806.744529));
     }
