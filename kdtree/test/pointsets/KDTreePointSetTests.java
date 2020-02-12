@@ -1,6 +1,7 @@
 package pointsets;
 
 import edu.washington.cse373.BaseTest;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class KDTreePointSetTests extends BaseTest {
     protected PointSet<Point> createPointSet(List<Point> points) {
-        return new NaivePointSet<>(points);
+        return new KDTreePointSet<>(points);
     }
 
     @Test
@@ -95,5 +96,21 @@ public class KDTreePointSetTests extends BaseTest {
         PointSet<Point> set = createPointSet(points);
         Point actual = set.nearest(.4, -.3);
         assertThat(actual).isEqualTo(new Point(.4, .001));
+    }
+
+    @Test
+    @DisplayName("NN on three points")
+    void addthenQuery() {
+        List<Point> points = new ArrayList<>();
+        points.add(new Point(455.12736, 366.446944));
+        points.add(new Point(331.097904, 806.744529));
+        points.add(new Point(-382.561089, -445.84302));
+
+        PointSet<Point> set = createPointSet(points);
+        Point actual1 = set.nearest(-72.692848, 565.803558);
+        Point actual2 = set.nearest(-72.692848, 565.803558);
+        Point actual3 = set.nearest(-72.692848, 565.803558);
+        Point actual4 = set.nearest(-72.692848, 565.803558);
+        assertThat(actual4).isEqualTo(new Point(331.097904, 806.744529));
     }
 }
