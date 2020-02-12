@@ -106,7 +106,10 @@ public class KDTreePointSetTests extends BaseTest {
         points.add(new Point(331.097904, 806.744529));
         points.add(new Point(-382.561089, -445.84302));
 
+        PointSet<Point> set1 = createPointSet(points);
+        PointSet<Point> set2 = createPointSet(points);
         PointSet<Point> set = createPointSet(points);
+
         Point actual1 = set.nearest(-72.692848, 565.803558);
         Point actual2 = set.nearest(-72.692848, 565.803558);
         Point actual3 = set.nearest(-72.692848, 565.803558);
