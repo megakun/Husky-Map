@@ -31,7 +31,7 @@ public class NaivePointSet<T extends Point> implements PointSet<T> {
      */
     @Override
     public T nearest(Point target) {
-        T result = null;
+       Point result = new Point(0, 0);
         double nearest = Double.MAX_VALUE;
         for (T point : npSet) {
             double distance = point.distanceSquaredTo(target);
@@ -40,7 +40,7 @@ public class NaivePointSet<T extends Point> implements PointSet<T> {
                 result = point;
             }
         }
-        return result;
+        return (T) result;
     }
 
     @Override
