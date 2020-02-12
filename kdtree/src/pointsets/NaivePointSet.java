@@ -1,6 +1,6 @@
 package pointsets;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -8,7 +8,7 @@ import java.util.List;
  * Naive nearest-neighbor implementation using a linear scan.
  */
 public class NaivePointSet<T extends Point> implements PointSet<T> {
-    private ArrayList<T> npSet;
+    private HashSet<Point> npSet;
     private List<T> points;
 
 
@@ -20,8 +20,9 @@ public class NaivePointSet<T extends Point> implements PointSet<T> {
      *               directly store and mutate the array).
      */
     public NaivePointSet(List<T> points) {
-        for (T point : points) {
-            npSet.add(point);
+        npSet = new HashSet<>();
+        for (Point p : points) {
+            npSet.add(p);
         }
         this.points = points;
     }
@@ -31,13 +32,13 @@ public class NaivePointSet<T extends Point> implements PointSet<T> {
      */
     @Override
     public T nearest(Point target) {
-       Point result = new Point(0, 0);
+        Point result = new Point(0, 0);
         double nearest = Double.MAX_VALUE;
-        for (T point : npSet) {
-            double distance = point.distanceSquaredTo(target);
+        for (Point p : npSet) {
+            double distance = p.distanceSquaredTo(target);
             if (distance < nearest) {
                 nearest = distance;
-                result = point;
+                result = p;
             }
         }
         return (T) result;
