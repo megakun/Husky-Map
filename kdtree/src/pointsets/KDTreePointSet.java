@@ -105,9 +105,9 @@ public class KDTreePointSet<T extends Point> implements PointSet<T> {
                 badSide = root.left;
             }
             nearestHelper(goodSide, target);
-            //if (Math.pow((target.x() - root.p.x()), 2) <= bestDistance) {
-            nearestHelper(badSide, target);
-            // }
+            if (Math.pow((target.x() - root.p.x()), 2) <= bestDistance) {
+                nearestHelper(badSide, target);
+            }
         } else { // vertical
             if (target.y() < root.p.y()) {
                 goodSide = root.left;
@@ -117,9 +117,9 @@ public class KDTreePointSet<T extends Point> implements PointSet<T> {
                 badSide = root.left;
             }
             nearestHelper(goodSide, target);
-            //if (Math.pow((target.y() - root.p.y()), 2) <= bestDistance) {
-            nearestHelper(badSide, target);
-            // }
+            if (Math.pow((target.y() - root.p.y()), 2) <= bestDistance) {
+                nearestHelper(badSide, target);
+            }
 
         }
 
