@@ -31,7 +31,6 @@ public class AStarPathFinder<VERTEX> extends ShortestPathFinder<VERTEX> {
     @Override
     public ShortestPathResult<VERTEX> findShortestPath(VERTEX start, VERTEX end, Duration timeout) {
         Timer timer = new Timer(timeout);
-
         pq.add(start, heuristic(start, end));
         int explore = 0;
         Map<VERTEX, Double> distances = new HashMap<>();
@@ -56,17 +55,18 @@ public class AStarPathFinder<VERTEX> extends ShortestPathFinder<VERTEX> {
             for (WeightedEdge<VERTEX> edge : graph.neighbors(p)) {
                 VERTEX v = edge.to();
                 double weight = edge.weight();
-                if (distances.containsKey(v)) {
-                    if (distances.get(v) > distances.get(p) + weight) {
-                        distances.put(v, distances.get(p) + weight);
-                        previousVertex.put(v, p);
-                        pq.changePriority(v, distances.get(v) + heuristic(v, end));
+                if (!distances.containsKey(v)) {
 
-                    }
-                } else {
+                    //} else { //!contain
                     distances.put(v, distances.get(p) + weight);
-                    previousVertex.put(v, p);
                     pq.add(v, distances.get(v) + heuristic(v, end));
+                    previousVertex.put(v, p);
+                }
+                if (distances.get(v) >= distances.get(p) + weight) {
+                    distances.put(v, distances.get(p) + weight);
+                    pq.changePriority(v, distances.get(v) + heuristic(v, end));
+                    previousVertex.put(v, p);
+
                 }
 
             }
