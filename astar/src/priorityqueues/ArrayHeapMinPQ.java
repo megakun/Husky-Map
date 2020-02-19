@@ -23,6 +23,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
     // Here's a method stub that may be useful. Feel free to change or remove it, if you wish.
     // You'll probably want to add more helper methods like this one to make your code easier to read.
+
     /**
      * A helper method for swapping the items at two indices of the array heap.
      */
@@ -39,6 +40,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     /**
      * Adds an item with the given priority value.
      * Runs in O(log N) time (except when resizing).
+     *
      * @throws IllegalArgumentException if item is null or is already present in the PQ
      */
     @Override
@@ -72,6 +74,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     /**
      * Returns the item with the least-valued priority.
      * Runs in O(log N) time.
+     *
      * @throws NoSuchElementException if the PQ is empty
      */
     @Override
@@ -85,6 +88,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     /**
      * Removes and returns the item with the least-valued priority.
      * Runs in O(log N) time (except when resizing).
+     *
      * @throws NoSuchElementException if the PQ is empty
      */
     @Override
@@ -117,40 +121,40 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
 
     /** for experiment
-    private void down(int startNode) {
-        /* I changed the variable to "startNode" because using an
-         * argument as a regular variable is kind of tacky. But it's a
-         * minor point, and I wanted to document it.
+     private void down(int startNode) {
+     /* I changed the variable to "startNode" because using an
+     * argument as a regular variable is kind of tacky. But it's a
+     * minor point, and I wanted to document it.
 
 
-        int child;
-        PriorityNode<T> tmp = items.get(startNode);
-        int hole;
+     int child;
+     PriorityNode<T> tmp = items.get(startNode);
+     int hole;
 
 
-        for (hole = startNode; hole * 2 <= size; hole = child) {
+     for (hole = startNode; hole * 2 <= size; hole = child) {
 
-            child = hole * 2;
+     child = hole * 2;
 
-            if (child != size &&
-                items.get(child + 1).getPriority() < items.get(child).getPriority()) {
+     if (child != size &&
+     items.get(child + 1).getPriority() < items.get(child).getPriority()) {
 
-                child++;
-            }
-
-
-            if (items.get(child).getPriority() < tmp.getPriority()) {
-
-                swap(hole, child);
-            } else {
-
-                break;
-            }
-        }
+     child++;
+     }
 
 
-        items.set(hole, tmp);
-    } **/
+     if (items.get(child).getPriority() < tmp.getPriority()) {
+
+     swap(hole, child);
+     } else {
+
+     break;
+     }
+     }
+
+
+     items.set(hole, tmp);
+     } **/
 
     /**
      * Changes the priority of the given item.
