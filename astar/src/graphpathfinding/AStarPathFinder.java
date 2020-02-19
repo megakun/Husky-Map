@@ -56,13 +56,11 @@ public class AStarPathFinder<VERTEX> extends ShortestPathFinder<VERTEX> {
                 VERTEX v = edge.to();
                 double weight = edge.weight();
                 if (!distances.containsKey(v)) {
-
-                    //} else { //!contain
                     distances.put(v, distances.get(p) + weight);
                     pq.add(v, distances.get(v) + heuristic(v, end));
                     previousVertex.put(v, p);
                 }
-                if (distances.get(v) >= distances.get(p) + weight) {
+                if (distances.get(v) > distances.get(p) + weight) {
                     distances.put(v, distances.get(p) + weight);
                     pq.changePriority(v, distances.get(v) + heuristic(v, end));
                     previousVertex.put(v, p);
