@@ -22,8 +22,8 @@ import static huskymaps.utils.Spatial.projectToPoint;
  */
 public class DefaultRouter extends Router {
     private StreetMapGraph graph;
-    private PointSet pointSet;
-    private ShortestPathFinder finder;
+    private PointSet<NodePoint> pointSet;
+    private ShortestPathFinder<Node> finder;
 
     public DefaultRouter(StreetMapGraph graph) {
         this.graph = graph;
@@ -60,7 +60,7 @@ public class DefaultRouter extends Router {
     protected Node closest(Coordinate c) {
         // Project to x and y coordinates instead of using raw lat and lon for finding closest points:
         Point p = projectToPoint(c, Point::new);
-        NodePoint result = (NodePoint) pointSet.nearest(p);
+        NodePoint result = pointSet.nearest(p);
         return result.node();
     }
 
