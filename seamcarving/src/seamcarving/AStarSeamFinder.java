@@ -26,7 +26,7 @@ public class AStarSeamFinder extends SeamFinder {
 
     @Override
     public List<Integer> findHorizontalSeam(double[][] energies) {
-        double input[][] = transpose(energies);
+        double[][] input = transpose(energies);
         return findVerticalSeam(input);
     }
 
