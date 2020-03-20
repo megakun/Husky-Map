@@ -39,9 +39,7 @@ public class DualGradientEnergyFunction implements EnergyFunction {
             deltaG = Math.pow((picture.get(left, y).getGreen() - picture.get(right, y).getGreen()), 2);
             deltaB = Math.pow((picture.get(left, y).getBlue() - picture.get(right, y).getBlue()), 2);
         }
-
         return deltaR + deltaG + deltaB;
-
     }
 
     private double deltaY(Picture picture, int x, int y) {
@@ -71,10 +69,6 @@ public class DualGradientEnergyFunction implements EnergyFunction {
             deltaG = Math.pow((picture.get(x, up).getGreen() - picture.get(x, down).getGreen()), 2);
             deltaB = Math.pow((picture.get(x, up).getBlue() - picture.get(x, down).getBlue()), 2);
         }
-
-
         return deltaR + deltaG + deltaB;
-
-
     }
 }
