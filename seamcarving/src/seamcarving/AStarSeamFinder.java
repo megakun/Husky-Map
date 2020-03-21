@@ -33,7 +33,7 @@ public class AStarSeamFinder extends SeamFinder {
         List result = new ArrayList();
 
         for (Point p : path.solution()) {
-            result.add(p.x);
+            result.add(p.y);
         }
 
         result.remove(0);
